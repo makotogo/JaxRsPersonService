@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.makotojava.learn.jaxrs.dao.PersonFinder;
+import com.makotojava.learn.jaxrs.dao.PersonDao;
 import com.makotojava.learn.jaxrs.model.Person;
 
 /**
@@ -29,7 +29,7 @@ import com.makotojava.learn.jaxrs.model.Person;
  * @author sperry
  *
  */
-public class Repository implements PersonFinder {
+public class Repository implements PersonDao {
 
   private Repository() {
   }

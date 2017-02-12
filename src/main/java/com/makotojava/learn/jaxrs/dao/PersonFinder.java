@@ -50,39 +50,9 @@ public interface PersonFinder {
    * Find all Person objects in the DB with the specified last name.
    * 
    * @param lastName
-   * @return
+   * @return List<Person> - a List of Person objects whose lastName matches
+   *         the specified last name, or an empty List if no matches were found.
    */
   public List<Person> findAllByLastName(String lastName);
 
-  /**
-   * Add the specified Person object to the DB.
-   * 
-   * @param person
-   *          The Person object to add.
-   * 
-   * @return Person - the Person object just added
-   */
-  public Person addPerson(Person person);
-
-  /**
-   * Updates the specified Person object, if it could be located
-   * in the Repository.
-   * 
-   * @param person
-   *          The Person object with the new field value(s)
-   * 
-   * @return Person - the Person object that was updated or null if the object could not be located.
-   */
-  public Person updatePerson(Person person);
-
-  /**
-   * Deletes the specified Person object, if it exists in the
-   * repository.
-   * 
-   * @param person
-   *          The Person object with the new field value(s)
-   * 
-   * @return Person - the Person object that was updated or null if the object could not be located.
-   */
-  public Person deletePerson(Person person);
 }

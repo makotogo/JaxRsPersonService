@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.makotojava.learn.jaxrs.dao.PersonDao;
 import com.makotojava.learn.jaxrs.dao.PersonFinder;
 import com.makotojava.learn.jaxrs.model.Person;
 import com.makotojava.learn.jaxrs.model.Person.EyeColor;
@@ -43,11 +44,13 @@ public class RepositoryTest {
 
   private Repository repository;
   private PersonFinder personFinder;
+  private PersonDao personDao;
 
   @Before
   public void setUp() throws Exception {
     repository = Repository.instance();
     personFinder = repository;
+    personDao = repository;
   }
 
   @Test
@@ -110,7 +113,7 @@ public class RepositoryTest {
     //
     // Add a new Person to the Repository
     Person personToAdd = new Person("lastName", "firstName", 100, EyeColor.UNKNOWN, Gender.UNKNOWN);
-    personToAdd = personFinder.addPerson(personToAdd);
+    personToAdd = personDao.addPerson(personToAdd);
     //
     // Make sure the Person was added
     assertNotNull(personToAdd);
@@ -135,7 +138,7 @@ public class RepositoryTest {
     Person person = PersonGenerator.createPerson();
     // We need to know
     long repositorySizeOriginal = repository.getRepositorySize();
-    Person personAdded = personFinder.addPerson(person);
+    Person personAdded = personDao.addPerson(person);
     //
     // The Person object that was added should have these attributes
     /// set after adding to the Repository
@@ -167,7 +170,7 @@ public class RepositoryTest {
     //
     // Add that Person (or they won't have an ID, and an "update"
     /// makes no sense)
-    person = personFinder.addPerson(person);
+    person = personDao.addPerson(person);
     //
     // Modify their last name
     String lastNameOriginal = person.getLastName();
@@ -175,7 +178,7 @@ public class RepositoryTest {
     person.setLastName(lastNameModified);
     //
     // Update in the Repository
-    Person personModified = personFinder.updatePerson(person);
+    Person personModified = personDao.updatePerson(person);
     //
     // Make sure the IDs match
     assertEquals(person.getId(), personModified.getId());
