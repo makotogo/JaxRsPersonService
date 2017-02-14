@@ -18,6 +18,7 @@ package com.makotojava.learn.jaxrs.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -189,6 +190,40 @@ public class RepositoryTest {
     // Not convinced? Let's grab it from the Repository and check it.
     Person personFromDb = personFinder.findById(personModified.getId());
     assertEquals(lastNameModified, personFromDb.getLastName());
+    log.info("*** END TEST ***");
+  }
+
+  @Test
+  public void testDeletePerson() {
+    log.info("*** BEGIN TEST ***");
+    //
+    // Create a new Person object
+    Person person = PersonGenerator.createPerson();
+    //
+    // Add that Person (or they won't have an ID, and an "update"
+    /// makes no sense)
+    person = personDao.addPerson(person);
+    //
+    // Modify their last name
+    String lastNameOriginal = person.getLastName();
+    String lastNameModified = lastNameOriginal + "MOD";
+    person.setLastName(lastNameModified);
+    //
+    // Update in the Repository
+    Person personDeleted = personDao.deletePerson(person);
+
+    assertNotNull(personDeleted);
+    //
+    // Make sure the IDs match
+    assertEquals(person.getId(), personDeleted.getId());
+    //
+    // Make sure the Person was actually modified
+    assertEquals(lastNameModified, personDeleted.getLastName());
+    //
+    // Not convinced? Let's try and grab it from the Repository
+    /// (and see it ain't there)
+    Person personFromDb = personFinder.findById(personDeleted.getId());
+    assertNull(personFromDb);
     log.info("*** END TEST ***");
   }
 

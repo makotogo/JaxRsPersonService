@@ -33,7 +33,7 @@ public interface PersonDao extends PersonFinder {
    * @param person
    *          The Person object with the new field value(s)
    * 
-   * @return Person - the Person object that was updated or null if the object could not be located.
+   * @return Person - the Person object that was updated or null if the object could not be deleted.
    */
   public Person deletePerson(Person person);
 

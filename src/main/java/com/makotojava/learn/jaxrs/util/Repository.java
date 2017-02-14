@@ -101,16 +101,27 @@ public class Repository implements PersonDao {
   @Override
   public Person addPerson(Person person) {
     Person ret = null;
-    long nextId = DATA.size() + 1;
-    Date now = new Date();
-    // Make a deep copy, even for sample code it just seems like the right call
-    Person personForDb = new Person(person.getLastName(), person.getFirstName(), person.getAge(), person.getEyeColor(),
-        person.getGender());
-    personForDb.setId(nextId);
-    personForDb.setWhenCreated(now);
-    // Add the person
-    if (DATA.add(personForDb)) {
-      ret = personForDb;
+    //
+    // Before we get this party cranked up, we need to make
+    /// sure the Person we have been asked to add does not already
+    /// exist. If they do, we send back the one that was sent up.
+    //
+    if (personExists(person)) {
+      ret = findPerson(person);
+    } else {
+      // Okay, they do not exist already. Add 'em!
+      long nextId = DATA.size() + 1;
+      Date now = new Date();
+      // Make a deep copy, even for sample code it just seems like the right call
+      Person personForDb =
+          new Person(person.getLastName(), person.getFirstName(), person.getAge(), person.getEyeColor(),
+              person.getGender());
+      personForDb.setId(nextId);
+      personForDb.setWhenCreated(now);
+      // Add the person
+      if (DATA.add(personForDb)) {
+        ret = personForDb;
+      }
     }
     return ret;
   }
@@ -133,8 +144,31 @@ public class Repository implements PersonDao {
 
   @Override
   public Person deletePerson(Person person) {
-    // TODO Auto-generated method stub
-    return null;
+    Person ret = null;
+    //
+    ret = findById(person.getId());
+    if (ret != null) {
+      DATA.remove(ret);
+    }
+    //
+    return ret;
+  }
+
+  private boolean personExists(Person person) {
+    //
+    // Use contains() to check
+    return DATA.contains(person);
+  }
+
+  private Person findPerson(Person person) {
+    Person ret = null;
+    for (Person p : DATA) {
+      if (p.equals(person)) {
+        ret = p;
+        break;
+      }
+    }
+    return ret;
   }
 
 }

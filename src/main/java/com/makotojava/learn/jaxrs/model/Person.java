@@ -27,6 +27,10 @@ public class Person {
     MALE, FEMALE, UNKNOWN
   }
 
+  public Person() {
+
+  }
+
   public Person(String lastName, String firstName, int age, EyeColor eyeColor, Gender gender) {
     this.lastName = lastName;
     this.firstName = firstName;
@@ -118,6 +122,44 @@ public class Person {
         + ", eyeColor="
         + eyeColor
         + ", gender=" + gender + ", whenCreated = " + mWhenCreated + "]";
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Person other = (Person) obj;
+    if (age != other.age)
+      return false;
+    if (eyeColor != other.eyeColor)
+      return false;
+    if (firstName == null) {
+      if (other.firstName != null)
+        return false;
+    } else if (!firstName.equals(other.firstName))
+      return false;
+    if (gender != other.gender)
+      return false;
+    if (lastName == null) {
+      if (other.lastName != null)
+        return false;
+    } else if (!lastName.equals(other.lastName))
+      return false;
+    // if (mId == null) {
+    // if (other.mId != null)
+    // return false;
+    // } else if (!mId.equals(other.mId))
+    // return false;
+    // if (mWhenCreated == null) {
+    // if (other.mWhenCreated != null)
+    // return false;
+    // } else if (!mWhenCreated.equals(other.mWhenCreated))
+    // return false;
+    return true;
   }
 
 }

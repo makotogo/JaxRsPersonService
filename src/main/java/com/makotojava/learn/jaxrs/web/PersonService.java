@@ -141,6 +141,7 @@ public class PersonService {
   @PUT
   @Path(PATH_ADD_PERSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response addPerson(Person personToAdd) {
     Response ret = null;
     //
@@ -162,40 +163,41 @@ public class PersonService {
   @POST
   @Path(PATH_UPDATE_PERSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response updatePerson(Person personToUpdate) {
     Response ret = null;
     //
     // Update the Person to the Repository
     Person personUpdated = getPersonDao().updatePerson(personToUpdate);
     if (personUpdated != null) {
-      ret = Response.ok(personUpdated).build();
+      URI updatePersonURI = URI.create(PATH_PERSON_SERVICE + PATH_UPDATE_PERSON);
+      ret = Response.ok(updatePersonURI).entity(personUpdated).build();
     } else {
       ret = Response.status(400).entity("Person could not be updated. Please correct error(s) and try again.").build();
     }
-    //
-    // Create response
-    URI updatePersonURI = URI.create(PATH_PERSON_SERVICE + PATH_UPDATE_PERSON);
-    ret = Response.ok(updatePersonURI).entity(personUpdated).build();
+
+    prettyPrintObject(ret);
+
     return ret;
   }
 
   @DELETE
   @Path(PATH_DELETE_PERSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response deletePerson(Person personToDelete) {
     Response ret = null;
     //
     // Delete the Person to the Repository
     Person personDeleted = getPersonDao().deletePerson(personToDelete);
     if (personDeleted != null) {
-      ret = Response.noContent().build();
+      URI deletePersonURI = URI.create(PATH_PERSON_SERVICE + PATH_DELETE_PERSON);
+      ret = Response.ok(deletePersonURI).entity(personDeleted).build();
     } else {
       ret = Response.status(400).entity("Person could not be deleted. Please correct error(s) and try again.").build();
     }
     //
     // Create response
-    URI deletePersonURI = URI.create(PATH_PERSON_SERVICE + PATH_DELETE_PERSON);
-    ret = Response.ok(deletePersonURI).entity(personDeleted).build();
     return ret;
   }
 
