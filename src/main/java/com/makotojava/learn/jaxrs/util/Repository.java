@@ -154,12 +154,34 @@ public class Repository implements PersonDao {
     return ret;
   }
 
+  /**
+   * Checks to see if the specified Person object exists
+   * in the Repository or not.
+   * 
+   * @param person
+   *          The Person that may or may not exist in the
+   *          Repository.
+   * 
+   * @return boolean - true if the Person object exists, false
+   *         otherwise.
+   */
   private boolean personExists(Person person) {
     //
     // Use contains() to check
     return DATA.contains(person);
   }
 
+  /**
+   * An internal method to locate the specified Person
+   * object in the Repository using the equals() method.
+   * This method is not exposed outside of the Repository.
+   * 
+   * @param person
+   *          The Person that may or may not exist in the Repository
+   * 
+   * @return Person - the Person object if it exists in the Repository,
+   *         or null if it does not.
+   */
   private Person findPerson(Person person) {
     Person ret = null;
     for (Person p : DATA) {
