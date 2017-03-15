@@ -87,8 +87,6 @@ public class PersonService {
       ret = Response.status(404).entity("Repository appears to be empty.").build();
     }
 
-    ret = Response.ok(persons).build();
-
     prettyPrintObject(ret);
 
     return ret;
@@ -144,19 +142,14 @@ public class PersonService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response addPerson(Person personToAdd) {
     Response ret = null;
-    //
-    // Add the Person to the Repository
     Person personAdded = getPersonDao().addPerson(personToAdd);
     if (personAdded != null) {
-      //
-      // Create response
       URI addPersonURI = URI.create(PATH_PERSON_SERVICE + PATH_ADD_PERSON);
       ret = Response.created(addPersonURI).entity(personAdded).build();
     } else {
-      ret = Response.status(400).entity("Person could not added, please correct error(s) and try again.").build();
+      ret = Response.status(400).entity("Person could not be added, please correct error(s) and try again").build();
     }
     prettyPrintObject(ret);
-
     return ret;
   }
 
@@ -166,18 +159,14 @@ public class PersonService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response updatePerson(Person personToUpdate) {
     Response ret = null;
-    //
-    // Update the Person to the Repository
     Person personUpdated = getPersonDao().updatePerson(personToUpdate);
     if (personUpdated != null) {
       URI updatePersonURI = URI.create(PATH_PERSON_SERVICE + PATH_UPDATE_PERSON);
       ret = Response.ok(updatePersonURI).entity(personUpdated).build();
     } else {
-      ret = Response.status(400).entity("Person could not be updated. Please correct error(s) and try again.").build();
+      ret = Response.status(400).entity("Person could not be updated, please correct error(s) and try again").build();
     }
-
     prettyPrintObject(ret);
-
     return ret;
   }
 
@@ -187,17 +176,14 @@ public class PersonService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response deletePerson(Person personToDelete) {
     Response ret = null;
-    //
-    // Delete the Person to the Repository
     Person personDeleted = getPersonDao().deletePerson(personToDelete);
     if (personDeleted != null) {
       URI deletePersonURI = URI.create(PATH_PERSON_SERVICE + PATH_DELETE_PERSON);
       ret = Response.ok(deletePersonURI).entity(personDeleted).build();
     } else {
-      ret = Response.status(400).entity("Person could not be deleted. Please correct error(s) and try again.").build();
+      ret = Response.status(400).entity("Person could not be deleted, please correct error(s) and try again").build();
     }
-    //
-    // Create response
+    prettyPrintObject(ret);
     return ret;
   }
 
